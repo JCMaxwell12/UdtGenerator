@@ -1,5 +1,15 @@
 import csv
 
+def findDupes(dictsList, testKey, ignoreEmpty=False):
+    for i in range(len(dictsList)):
+        if ignoreEmpty and dictsList[i][testKey] == '':
+            continue
+
+        for dictn in range(i+1, len(dictsList)):
+            if dictsList[i][testKey] == dictsList[dictn][testKey]:
+                return True, f'{dictsList[i][testKey]} is duplicate in positions {i}, {dictn}'
+    return False, ''
+
 units = []
 
 with open('definition.csv') as def_file:
@@ -16,5 +26,8 @@ with open('definition.csv') as def_file:
                 'amount':   row[3]
         })
 
+hasDuplicates = findDupes(units, 'name', True)
+if hasDuplicates[0]:
+    raise Exception(hasDuplicates[1])
 
 
