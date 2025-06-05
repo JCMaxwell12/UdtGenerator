@@ -10,6 +10,9 @@ def findDupes(dictsList, testKey, ignoreEmpty=False):
                 return True, f'{dictsList[i][testKey]} is duplicate in positions {i}, {dictn}'
     return False, ''
 
+def toPascalCase(string):
+    return string.title().replace(' ', '')
+
 units = []
 
 with open('definition.csv') as def_file:
@@ -25,6 +28,9 @@ with open('definition.csv') as def_file:
                 'size':     row[2],
                 'amount':   row[3]
         })
+
+for i in range(len(units)):     # Convert names to Pascal Case
+    units[i]['name'] = toPascalCase(units[i]['name'])
 
 hasDuplicates = findDupes(units, 'name', True)
 if hasDuplicates[0]:
