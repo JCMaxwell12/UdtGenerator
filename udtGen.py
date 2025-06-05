@@ -29,8 +29,13 @@ with open('definition.csv') as def_file:
                 'amount':   row[3]
         })
 
+reservedCnt = 0
 for i in range(len(units)):     # Convert names to Pascal Case
     units[i]['name'] = toPascalCase(units[i]['name'])
+
+    if units[i]['name'] == '':  # Change names to ReservedN
+        units[i]['name'] = f'Reserved{reservedCnt}'
+        reservedCnt += 1
 
 hasDuplicates = findDupes(units, 'name', True)
 if hasDuplicates[0]:
