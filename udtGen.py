@@ -29,6 +29,17 @@ with open('definition.csv') as def_file:
                 'amount':   row[3]
         })
 
+dataTypes = {}
+with open('dataTypes.csv') as def_file:
+    deflines = csv.reader(def_file, delimiter=',')
+
+    for row in deflines:
+        dataTypes.update({
+                row[0]: {
+                'size':     row[1],
+                'abbrev':   row[2]
+            } })
+
 reservedCnt = 0
 for i in range(len(units)):     # Convert names to Pascal Case
     units[i]['name'] = toPascalCase(units[i]['name'])
