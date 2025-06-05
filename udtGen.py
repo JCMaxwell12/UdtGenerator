@@ -16,7 +16,7 @@ with open('definition.csv') as def_file:
     deflines = csv.reader(def_file, delimiter=',')
 
     for row in deflines:
-        if row == ['Name', 'Type', 'Size', 'Amount']:
+        if row == ['Name', 'Type', 'Size(str)', 'ArraySize']:
             continue
 
         units.append({
