@@ -1,10 +1,7 @@
 import csv
 
-def findDupes(dictsList, testKey, ignoreEmpty=False):
+def findDupes(dictsList, testKey):
     for i in range(len(dictsList)):
-        if ignoreEmpty and dictsList[i][testKey] == '':
-            continue
-
         for dictn in range(i+1, len(dictsList)):
             if dictsList[i][testKey] == dictsList[dictn][testKey]:
                 return True, f'{dictsList[i][testKey]} is duplicate in positions {i}, {dictn}'
@@ -48,7 +45,7 @@ for i in range(len(units)):     # Convert names to Pascal Case
         units[i]['name'] = f'Reserved{reservedCnt}'
         reservedCnt += 1
 
-hasDuplicates = findDupes(units, 'name', True)
+hasDuplicates = findDupes(units, 'name')
 if hasDuplicates[0]:
     raise Exception(hasDuplicates[1])
 
