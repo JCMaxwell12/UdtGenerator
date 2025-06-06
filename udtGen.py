@@ -18,7 +18,7 @@ with open('dataTypes.csv') as def_file:
     for row in deflines:
         dataTypes.update({
                 row[0]: {
-                'size':     row[1],
+                'size':     int(row[1]),
                 'abbrev':   row[2]
             } })
 
@@ -54,12 +54,19 @@ with open('definition.csv') as def_file:
         })
 
 reservedCnt = 0
+udtSize = 0
 for i in range(len(units)):     # Convert names to Pascal Case
     units[i]['name'] = toPascalCase(units[i]['name'])
 
     if units[i]['name'] == '':  # Change names to ReservedN
         units[i]['name'] = f'Reserved{reservedCnt}'
         reservedCnt += 1
+    
+    sizeOfUnit = dataTypes[units[i]['type']]['size'] * units[i]['amount']
+    if units[i]['type'] == 'string':      # Strings have a length
+        sizeOfUnit = sizeOfUnit * units[i]['size']
+
+    udtSize += sizeOfUnit
 
 hasDuplicates = findDupes(units, 'name')
 if hasDuplicates[0]:
