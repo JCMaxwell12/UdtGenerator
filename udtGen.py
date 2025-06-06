@@ -62,3 +62,8 @@ if hasDuplicates[0]:
     raise Exception(hasDuplicates[1])
 
 
+for i in range(len(units)):     # Preppend names with their data type abbreviation
+    if units[i]['amount'] > 0:  # Handle arrays
+        units[i]['name'] = 'a' + units[i]['name']
+    else:
+        units[i]['name'] = dataTypes[units[i]['type']]['abbrev'] + units[i]['name']
