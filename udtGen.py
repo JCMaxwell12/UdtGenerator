@@ -19,11 +19,23 @@ with open('definition.csv') as def_file:
         if row == ['Name', 'Type', 'Size(str)', 'ArraySize']:
             continue
 
+        size = 0
+        try:
+            size = int(row[2])
+        except ValueError:   # if row[2[ is not a number keep it a 0
+            pass
+
+        arySize = 0
+        try:
+            arySize = int(row[3])
+        except ValueError:   # if row[3] is not a number keep it a 0
+            pass
+
         units.append({
                 'name':     row[0],
                 'type':     row[1],
-                'size':     row[2],
-                'amount':   row[3]
+                'size':     size,
+                'amount':   arySize
         })
 
 dataTypes = {}
