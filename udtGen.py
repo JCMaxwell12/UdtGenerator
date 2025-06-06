@@ -78,3 +78,18 @@ for i in range(len(units)):     # Preppend names with their data type abbreviati
         units[i]['name'] = 'a' + units[i]['name']
     else:
         units[i]['name'] = dataTypes[units[i]['type']]['abbrev'] + units[i]['name']
+
+
+with open('udt.csv', 'w', newline='') as udtFile:
+    csvWriter = csv.writer(udtFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    csvWriter.writerow(['Name', 'Data type'])
+    for unit in units:     # Preppend names with their data type abbreviation
+        varName = unit['name']
+        dataType = unit['type']
+        if unit['type'] is 'string':    # Handle string size
+            dataType = f'string[{unit['size']}'
+
+        if unit['amount'] > 1:  # Handle arrays
+            dataType =  f'Array [0..{unit['amount'] - 1}] of {dataType}'
+
+        csvWriter.writerow([varName, dataType])
