@@ -1,0 +1,58 @@
+Name,Type,Size(str),ArraySize
+dl ep1 error status,bool,,
+,bool,,13
+warning status,bool,,
+error status,bool,,
+error status main unit,bool,,
+,bool,,2
+error status expansion unit,bool,,
+,bool,,4
+,byte,,3
+Measurement value Over range,bool,,15
+,bool,,1
+Measurement value under range,bool,,15
+,bool,,1
+Measurement value invalid,bool,,15
+,bool,,1
+,byte,,6
+program change response main unit,bool,,
+external output 1 main unit,bool,,
+external output 6 main unit,bool,,
+program change response expansion unit,bool,,
+external output 1 expansion unit,bool,,
+external output 6 expansion unit,bool,,
+,bool,,10
+trigger timing response main unit,bool,,
+external output 2 main unit,bool,,
+external output 7 main unit,bool,,
+trigger timing response expansion unit,bool,,
+external output 2 expansion unit,bool,,
+external output 7 expansion unit,bool,,
+,bool,,10
+zero offset response main unit,bool,,
+external output 3 main unit,bool,,
+external output 8 main unit,bool,,
+zero offset response expansion unit,bool,,
+external output 3 expansion unit,bool,,
+external output 8 expansion unit,bool,,
+,bool,,10
+measurement value result update complete main unit,bool,,
+external output 4 main unit,bool,,
+external output 9 main unit,bool,,
+measurement value result update complete expansion unit,bool,,
+external output 4 expansion unit,bool,,
+external output 9 expansion unit,bool,,
+,bool,,10
+emission stop status main unit,bool,,
+external output 5 main unit,bool,,
+external output 10 main unit,bool,,
+emission stop status expansion unit,bool,,
+external output 5 expansion unit,bool,,
+external output 10 expansion unit,bool,,
+,bool,,2
+,byte,,13
+Error occurrence device number,uint,,
+Error code,uint,,
+,byte,,4
+measurement value,dint,,15
+,byte,,60
