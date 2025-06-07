@@ -61,29 +61,29 @@ with open('definition.csv') as def_file:
 
 reservedCnt = 0
 udtSize = 0
-for i in range(len(attributes)):     # Convert names to Pascal Case
-    attributes[i]['name'] = toPascalCase(attributes[i]['name'])
+for attribute in attributes:     # Convert names to Pascal Case
+    attribute['name'] = toPascalCase(attribute['name'])
 
-    if attributes[i]['name'] == '':  # Change names to ReservedN
-        attributes[i]['name'] = f'Reserved{reservedCnt}'
+    if attribute['name'] == '':  # Change names to ReservedN
+        attribute['name'] = f'Reserved{reservedCnt}'
         reservedCnt += 1
 
-    sizeOfAttribute = dataTypes[attributes[i]['type']]['size'] * attributes[i]['amount']
-    if attributes[i]['type'] == 'string':      # Strings have a length
-        sizeOfAttribute = sizeOfAttribute * attributes[i]['size']
+    sizeOfAttribute = dataTypes[attribute['type']]['size'] * attribute['amount']
+    if attribute['type'] == 'string':      # Strings have a length
+        sizeOfAttribute = sizeOfAttribute * attribute['size']
 
     udtSize += sizeOfAttribute
 
     prefix = ''
-    if reservedPrefix != '' and attributes[i]['name'].startswith('Reserved'):
+    if reservedPrefix != '' and attribute['name'].startswith('Reserved'):
         prefix = reservedPrefix
     if addPrefix:   # Preppend names with their data type abbreviation
-        if attributes[i]['amount'] > 1:  # Handle arrays
+        if attribute['amount'] > 1:  # Handle arrays
             prefix += 'a'
         else:
-            prefix += dataTypes[attributes[i]['type']]['abbrev']
+            prefix += dataTypes[attribute['type']]['abbrev']
 
-    attributes[i]['name'] = prefix + attributes[i]['name']
+    attribute['name'] = prefix + attribute['name']
 
 hasDuplicates = findDupes(attributes, 'name')
 if hasDuplicates[0]:
