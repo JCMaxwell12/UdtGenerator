@@ -62,8 +62,7 @@ with open('definition.csv') as def_file:
 reservedCnt = 0
 udtSize = 0
 for i in range(len(attributes)):     # Convert names to Pascal Case
-    attrName = attributes[i]['name']
-    attributes[i]['name'] = toPascalCase(attrName)
+    attributes[i]['name'] = toPascalCase(attributes[i]['name'])
 
     if attributes[i]['name'] == '':  # Change names to ReservedN
         attributes[i]['name'] = f'Reserved{reservedCnt}'
@@ -76,15 +75,15 @@ for i in range(len(attributes)):     # Convert names to Pascal Case
     udtSize += sizeOfAttribute
 
     prefix = ''
+    if reservedPrefix != '' and attributes[i]['name'].startswith('Reserved'):
+        prefix = reservedPrefix
     if addPrefix:   # Preppend names with their data type abbreviation
         if attributes[i]['amount'] > 1:  # Handle arrays
-            prefix = 'a'
+            prefix += 'a'
         else:
-            prefix = dataTypes[attributes[i]['type']]['abbrev']
-    if reservedPrefix != '' and attrName.startswith('Reserved'):
-        prefix = '_'
+            prefix += dataTypes[attributes[i]['type']]['abbrev']
 
-    attributes[i]['name'] = prefix + attrName
+    attributes[i]['name'] = prefix + attributes[i]['name']
 
 hasDuplicates = findDupes(attributes, 'name')
 if hasDuplicates[0]:
