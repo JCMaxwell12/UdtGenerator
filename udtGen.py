@@ -56,7 +56,8 @@ with open('definition.csv') as def_file:
             'name':     row[0],
             'type':     dType,
             'size':     size,
-            'amount':   arySize
+            'amount':   arySize,
+            'bytePos':  0
         })
 
 reservedCnt = 0
@@ -72,6 +73,7 @@ for attribute in attributes:     # Convert names to Pascal Case
     if attribute['type'] == 'string':      # Strings have a length
         sizeOfAttribute = sizeOfAttribute * attribute['size']
 
+    attribute['bytePos'] = f'{int(udtSize / 8)}.{udtSize % 8}'
     udtSize += sizeOfAttribute
 
     prefix = ''
@@ -91,14 +93,19 @@ if hasDuplicates[0]:
 
 with open('udt.csv', 'w', newline='') as udtFile:   # Write to file
     csvWriter = csv.writer(udtFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    csvWriter.writerow(['Name', 'Data type'])
+    csvWriter.writerow(['Byte.bit', 'Name', 'Data type'])
     for attribute in attributes:
         attrName = attribute['name']
         dataType = attribute['type']
+        bytePos = attribute['bytePos']
         if attribute['type'] == 'string':    # Handle string size
             dataType = f'string[{attribute['size']}'
 
         if attribute['amount'] > 1:  # Handle arrays
             dataType = f'Array [0..{attribute['amount'] - 1}] of {dataType}'
 
-        csvWriter.writerow([attrName, dataType])
+        csvWriter.writerow([bytePos, attrName, dataType])
+
+print(f'Size of UDT (bits): {udtSize}')
+print(f'Size of UDT (Bytes.bits): {int(udtSize / 8)}.{udtSize % 8}')
+print(f'Size of UDT (Words.bits): {int(udtSize / 16)}.{udtSize % 16}')
