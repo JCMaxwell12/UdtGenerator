@@ -13,6 +13,8 @@ def toPascalCase(string):
     return string.title().replace(' ', '')
 
 
+addPrefix = True
+
 dataTypes = {}
 with open('dataTypes.csv') as def_file:
     deflines = csv.reader(def_file, delimiter=',')
@@ -75,11 +77,12 @@ if hasDuplicates[0]:
     raise Exception(hasDuplicates[1])
 
 
-for i in range(len(attributes)):     # Preppend names with their data type abbreviation
-    if attributes[i]['amount'] > 1:  # Handle arrays
-        attributes[i]['name'] = 'a' + attributes[i]['name']
-    else:
-        attributes[i]['name'] = dataTypes[attributes[i]['type']]['abbrev'] + attributes[i]['name']
+if addPrefix:
+    for i in range(len(attributes)):     # Preppend names with their data type abbreviation
+        if attributes[i]['amount'] > 1:  # Handle arrays
+            attributes[i]['name'] = 'a' + attributes[i]['name']
+        else:
+            attributes[i]['name'] = dataTypes[attributes[i]['type']]['abbrev'] + attributes[i]['name']
 
 
 with open('udt.csv', 'w', newline='') as udtFile:   # Write to file
