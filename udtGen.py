@@ -86,7 +86,7 @@ with open('udt.csv', 'w', newline='') as udtFile:
     for unit in units:     # Preppend names with their data type abbreviation
         varName = unit['name']
         dataType = unit['type']
-        if unit['type'] is 'string':    # Handle string size
+        if unit['type'] == 'string':    # Handle string size
             dataType = f'string[{unit['size']}'
 
         if unit['amount'] > 1:  # Handle arrays
