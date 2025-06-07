@@ -14,6 +14,8 @@ def toPascalCase(string):
 
 
 addPrefix = True
+reservedPrefix = '_'
+
 
 dataTypes = {}
 with open('dataTypes.csv') as def_file:
@@ -60,7 +62,8 @@ with open('definition.csv') as def_file:
 reservedCnt = 0
 udtSize = 0
 for i in range(len(attributes)):     # Convert names to Pascal Case
-    attributes[i]['name'] = toPascalCase(attributes[i]['name'])
+    attrName = attributes[i]['name']
+    attributes[i]['name'] = toPascalCase(attrName)
 
     if attributes[i]['name'] == '':  # Change names to ReservedN
         attributes[i]['name'] = f'Reserved{reservedCnt}'
@@ -72,18 +75,20 @@ for i in range(len(attributes)):     # Convert names to Pascal Case
 
     udtSize += sizeOfAttribute
 
+    prefix = ''
+    if addPrefix:   # Preppend names with their data type abbreviation
+        if attributes[i]['amount'] > 1:  # Handle arrays
+            prefix = 'a'
+        else:
+            prefix = dataTypes[attributes[i]['type']]['abbrev']
+    if reservedPrefix != '' and attrName.startswith('Reserved'):
+        prefix = '_'
+
+    attributes[i]['name'] = prefix + attrName
+
 hasDuplicates = findDupes(attributes, 'name')
 if hasDuplicates[0]:
     raise Exception(hasDuplicates[1])
-
-
-if addPrefix:
-    for i in range(len(attributes)):     # Preppend names with their data type abbreviation
-        if attributes[i]['amount'] > 1:  # Handle arrays
-            attributes[i]['name'] = 'a' + attributes[i]['name']
-        else:
-            attributes[i]['name'] = dataTypes[attributes[i]['type']]['abbrev'] + attributes[i]['name']
-
 
 with open('udt.csv', 'w', newline='') as udtFile:   # Write to file
     csvWriter = csv.writer(udtFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
